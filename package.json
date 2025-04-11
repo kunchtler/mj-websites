@@ -1,0 +1,44 @@
+{
+  "name": "mj-websites",
+  "description": "Website template and examples for musical juggling",
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "vite --port 8080",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier . --write"
+  },
+  "dependencies": {
+    "musicaljuggling": "link:../../../.local/share/pnpm/global/5/node_modules/musicaljuggling",
+    "three": "^0.174.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/three": "^0.174.0",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1",
+    "vite": "^5.4.11"
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "none",
+    "singleQuote": false,
+    "printWidth": 100,
+    "tabWidth": 4,
+    "useTabs": false
+  },
+  "pnpm": {
+    "overrides": {
+      "musicaljuggling": "link:../../../.local/share/pnpm/global/5/node_modules/musicaljuggling"
+    }
+  }
+}

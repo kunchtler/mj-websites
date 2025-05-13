@@ -12,8 +12,7 @@ import globals from "globals";
 // Use "pnpm eslint --inspect-config" to more easily see rules.
 
 export default tseslint.config({
-    files: ["src/**/*.{ts,tsx,js,jsx}"],
-    ignores: ["src2/**"],
+    files: ["src*/**/*.{ts,tsx,js,jsx}"],
     extends: [
         js.configs.recommended,
         // See https://typescript-eslint.io/users/configs/#strict-type-checked

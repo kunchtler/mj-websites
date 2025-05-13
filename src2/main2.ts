@@ -17,18 +17,31 @@ const params: JugglingAppParams = {
                             tempo: "1",
                             hands: [["Mi"], ["Re", "Do"]],
                             pattern: `
-                                R1
-                                (1, 3x)!
-                                (3, 1)!
-                                0
                                 R3
-                                0
+                                {3 Florent}^100
+                            `
+                        }
+                    ]
+                ]
+            }
+        ],
+        [
+            "Florent",
+            {
+                balls: [
+                    { id: "Mi?F", name: "Mi", sound: "Mi", color: "yellow" },
+                    { id: "Fa?F", name: "Fa", sound: "Fa", color: "green" },
+                    { id: "Sol?F", name: "Sol", sound: "Sol", color: "blue" }
+                ],
+                events: [
+                    [
+                        "1",
+                        {
+                            tempo: "1",
+                            hands: [["Fa", "Mi"], ["Sol"]],
+                            pattern: `
                                 L3
-                                0
-                                R2x
-                                2x
-                                3x
-                                R1
+                                {3 Nicolas}^100
                             `
                         }
                     ]

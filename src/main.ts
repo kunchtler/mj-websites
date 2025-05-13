@@ -38,7 +38,8 @@ const params: JugglingAppParams = {
     ],
     musicConverter: [[0, { signature: "1", tempo: { note: "1", bpm: 120 } }]]
 };
-jugglingApp("#simulator_canvas", params);
+const canvas = document.getElementById("simulator_canvas") as HTMLCanvasElement;
+jugglingApp(canvas, params);
 
 //TODO : Soft errors everywhere !
 

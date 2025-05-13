@@ -1,42 +1,102 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
+import { Simulator, TimeConductor } from "musicaljuggling";
+import { TimeControls } from "./TimeControls";
+import styles from "./simulator.module.css";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { pattern as pattern1 } from "./jugglingPattern";
+import { Affix } from "@mantine/core";
+import { VRButton } from "./VRButton";
+
+//TODO : Handle timecontrol styles better ?
+// TODO : When separation of canvas and simulator, see where to put simulator.onVRstart/end.
 
 function App() {
-    const [count, setCount] = useState(0);
+    // const [pattern, setPattern] = useState<JugglingAppParams>(pattern1);
+    // const [playbackRate, setPlaybackRate] = useState(1);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    // const rendererRef = useRef<WebGLRenderer>(null);
+    const simulatorRef = useRef<Simulator>(null);
+    const [timeConductor, setTimeConductor] = useState<TimeConductor>(new TimeConductor());
+    const [showVRButton, setShowVRButton] = useState(false); //TODO : Find better solution to this.
 
     useEffect(() => {
-        console.log(count);
-    }, [count]);
+        // Create renderer using the existing canvas
+        const simulator = new Simulator({
+            canvas: canvasRef.current!,
+            enableAudio: true,
+            scene: { backgroundColor: "#444444" },
+            timeConductor: timeConductor
+        });
+        simulator.setupPattern(pattern1);
+
+        // const renderer = simulator.renderer;
+        // rendererRef.current = renderer;
+        simulatorRef.current = simulator;
+        // const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        // renderer.setSize(window.innerWidth, window.innerHeight);
+        // renderer.xr.enabled = true;
+
+        // Add VRButton to the DOM
+        // document.body.appendChild(VRButtonThree.createButton(renderer));
+
+        // renderer.setAnimationLoop(simulator.render);
+
+        setShowVRButton(true);
+
+        return () => {
+            simulator.dispose();
+            timeConductor.dispose();
+        };
+    }, [timeConductor]);
+
+    // useEffect(() => {
+    //     simulatorRef.current!.scene.background = new THREE.Color(sceneBackgroundColor);
+    //     simulatorRef.current!.requestRenderIfNotRequested();
+    // }, [sceneBackgroundColor]);
+
+    // useEffect(() => {
+    //     simulatorRef.current!.reset();
+    //     simulatorRef.current!.setupPattern(pattern);
+    // }, [pattern]);
+
+    // useEffect(() => {
+    //     simulatorRef.current!.timeController.playbackRate = playbackRate ?? 1;
+    // }, [playbackRate]);
+
+    let vrButton: ReactNode;
+    if (showVRButton) {
+        vrButton = (
+            <Affix position={{ bottom: "md", right: "md" }}>
+                <VRButton
+                    renderer={simulatorRef.current!.renderer}
+                    onVRStart={simulatorRef.current!.onVRstart}
+                    onVREnd={simulatorRef.current!.onVRend}
+                />
+            </Affix>
+        );
+    } else {
+        vrButton = <></>;
+    }
 
     return (
         <>
-            <div>
-                <a href="https://vite.dev" target="_blank" rel="noreferrer noopener">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank" rel="noreferrer noopener">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
+            <canvas ref={canvasRef} className={styles.simulator} />
+            <div className={styles.timecontrols}>
+                <TimeControls timeConductor={timeConductor} />
             </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button
-                    type="button"
-                    onClick={() => {
-                        setCount((count) => count + 1);
-                    }}
-                >
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+            {vrButton}
+            {/* <ColorPicker onChange={handleBackgroundColorChange}></ColorPicker> */}
         </>
     );
+    // return (
+    //     <>
+    //         <canvas ref={canvasRef} />
+    //         {showVRButton ? (
+    //             <VRButton renderer={/*rendererRef.current!*/ simulatorRef.current!.renderer} />
+    //         ) : (
+    //             <></>
+    //         )}
+    //     </>
+    // );
 }
 
 export default App;

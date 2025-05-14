@@ -31,10 +31,10 @@ export function SimulatorApp({ sceneBackgroundColor, pattern, playbackRate }: Si
         });
     }, []);
 
-    // useEffect(() => {
-    //     simulatorRef.current!.scene.background = new THREE.Color(sceneBackgroundColor);
-    //     simulatorRef.current!.requestRenderIfNotRequested();
-    // }, [sceneBackgroundColor]);
+    useEffect(() => {
+        simulatorRef.current!.scene.background = new THREE.Color(sceneBackgroundColor);
+        simulatorRef.current!.requestRenderIfNotRequested();
+    }, [sceneBackgroundColor]);
 
     useEffect(() => {
         simulatorRef.current!.reset();

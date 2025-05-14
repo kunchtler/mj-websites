@@ -10,6 +10,7 @@ import { XRControllerModelFactory } from "three/addons/webxr/XRControllerModelFa
 
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 import Stats from "three/addons/libs/stats.module.js";
+import { OrbitControls } from "three/examples/jsm/Addons.js";
 
 const parameters = {
     radius: 0.6,
@@ -23,22 +24,6 @@ const parameters = {
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x444444);
-// loader.path = "moonless_golf_1k.hdr"
-
-// const hdrUrl = new URL("./assets/moonless_golf_1k.hdr", import.meta.url).href;
-// const loader = new RGBELoader();
-// loader.load(
-//     hdrUrl,
-//     (texture) => {
-//         texture.mapping = THREE.EquirectangularReflectionMapping;
-//         scene.background = texture;
-//         scene.environment = texture;
-//     },
-//     undefined,
-//     (err: unknown) => {
-//         console.log(err);
-//     }
-// );
 
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10);
 camera.position.set(0, 1.6, 1.5);
@@ -99,6 +84,13 @@ document.body.appendChild(VRButton.createButton(renderer));
 
 window.addEventListener("resize", onWindowResize);
 
+const helper = new THREE.AxesHelper();
+scene.add(helper);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+// camera.position.set(2, 2, 2);
+controls.target.set(0, 1, -2);
+controls.update();
 //
 
 const geometry = new THREE.BufferGeometry();
@@ -151,12 +143,27 @@ group.listenToXRControllerEvents(controller1);
 group.listenToXRControllerEvents(controller2);
 scene.add(group);
 
-const mesh = new HTMLMesh(gui.domElement);
+// const iframe = document.createElement("iframe");
+// iframe.src = "https://nicolas.thiery.name";
+// // iframe.style.border = "none";
+// document.body.append(iframe);
+// const mesh = new HTMLMesh(iframe);
+const button = document.createElement("button");
+button.textContent = "BUTTON2";
+button.addEventListener("click", () => {
+    console.log("CLICKED");
+});
+document.body.append(button);
+const mesh = new HTMLMesh(button);
+
+// console.log(gui.domElement);
+// const mesh = new HTMLMesh(gui.domElement);
 mesh.position.x = -0.75;
 mesh.position.y = 1.5;
 mesh.position.z = -0.5;
 mesh.rotation.y = Math.PI / 4;
 mesh.scale.setScalar(2);
+mesh.material.side = THREE.DoubleSide;
 group.add(mesh);
 
 // Add stats.js
@@ -171,6 +178,7 @@ statsMesh.position.y = 2;
 statsMesh.position.z = -0.6;
 statsMesh.rotation.y = Math.PI / 4;
 statsMesh.scale.setScalar(2.5);
+statsMesh.material.side = THREE.DoubleSide;
 group.add(statsMesh);
 
 function onWindowResize() {

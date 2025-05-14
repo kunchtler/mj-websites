@@ -144,21 +144,42 @@ export function TimeControls({ timeConductor }: { timeConductor: TimeConductor }
     }
 
     return (
-        <Group p={"xs"}>
-            <ActionIcon onClick={onButtonClick}>{icon}</ActionIcon>
-            <Slider
-                flex="1"
+        <div style={{ display: "flex" }}>
+            <button type="button" onClick={onButtonClick}>
+                {icon}
+            </button>
+            <input
+                type="range"
+                style={{ flex: 1 }}
                 min={bounds[0]}
                 max={bounds[1]}
                 step={0.01}
-                value={time}
-                onChange={onSliderChange}
-                onChangeEnd={onSliderChangeEnd}
-                label={formatTime(time)}
-            ></Slider>
-            <Text>{`${formatTime(time)} / ${formatTime(bounds[1])}`}</Text>
-        </Group>
+                // value={time}
+                // onChange={(value) => {console.log(value);}}
+                // onChange={onSliderChange}
+                // onChangeEnd={onSliderChangeEnd}
+                // label={formatTime(time)}
+            ></input>
+            <div>{`${formatTime(time)} / ${formatTime(bounds[1])}`}</div>
+        </div>
     );
+
+    // return (
+    //     <Group p={"xs"}>
+    //         <ActionIcon onClick={onButtonClick}>{icon}</ActionIcon>
+    //         <Slider
+    //             flex="1"
+    //             min={bounds[0]}
+    //             max={bounds[1]}
+    //             step={0.01}
+    //             value={time}
+    //             onChange={onSliderChange}
+    //             onChangeEnd={onSliderChangeEnd}
+    //             label={formatTime(time)}
+    //         ></Slider>
+    //         <Text>{`${formatTime(time)} / ${formatTime(bounds[1])}`}</Text>
+    //     </Group>
+    // );
 }
 
 /**
